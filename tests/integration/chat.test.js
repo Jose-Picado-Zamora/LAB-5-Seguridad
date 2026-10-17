@@ -8,7 +8,6 @@ describe('Pruebas de Integración - UNA Chat (Backend + una-lib)', () => {
   let clientSocket;
 
   beforeAll((done) => {
-    // Iniciar servidor en puerto efímero para pruebas
     serverInstance = http.listen(0, () => {
       serverPort = serverInstance.address().port;
       done();
@@ -28,7 +27,6 @@ describe('Pruebas de Integración - UNA Chat (Backend + una-lib)', () => {
     }
   });
 
-  // 1. Pruebas de rutas HTTP con Supertest
   describe('Pruebas HTTP con Supertest', () => {
     it('GET / debe entregar la interfaz HTML con status 200', async () => {
       const response = await request(app).get('/');
@@ -88,7 +86,6 @@ describe('Pruebas de Integración - UNA Chat (Backend + una-lib)', () => {
     });
   });
 
-  // 2. Pruebas de eventos Socket.IO en tiempo real
   describe('Pruebas de Eventos Socket.IO', () => {
     beforeEach((done) => {
       clientSocket = ioClient(`http://localhost:${serverPort}`, {

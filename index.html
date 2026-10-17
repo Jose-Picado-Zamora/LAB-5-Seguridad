@@ -26,49 +26,41 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-
     var colorHexTxt = "";
 
-    // genera colores aleatorios en hexadeximal
     function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    $(function () {
+      var socket = io();
+
+      $('form').submit(function(){
+        var nombreTxt = $('#nombre').val() || "Anomimo";
+        var mensajeTxt = $('#m').val();
+
+        if (colorHexTxt == "") {
+          colorHexTxt = getRandomColor();
         }
 
-        return color;
-     }
-
-      $(function () {
-        var socket = io();
-
-        // emite evento al servidor
-        
-        $('form').submit(function(){
-            var nombreTxt = $('#nombre').val() || "Anomimo";
-            var mensajeTxt = $('#m').val();
-
-            if (colorHexTxt == "") {
-                colorHexTxt = getRandomColor();
-            }
-
-            var jsonMsg = { nombre: nombreTxt, mensaje: mensajeTxt, color: colorHexTxt };
-            socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
-            $('#m').val('');
-            return false;
-        });
-
-        // ... (resto del código) ...
-
-        socket.on('Evento-Mensaje-Server', function(msg){
-            var msgJson = JSON.parse(msg);
-            var mensajeDisplay = "<b style='color:"+ msgJson.color +"'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
-            $('#messages').append($('<li>').html(mensajeDisplay));
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-
+        var jsonMsg = { nombre: nombreTxt, mensaje: mensajeTxt, color: colorHexTxt };
+        socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
+        $('#m').val('');
+        return false;
       });
+
+      socket.on('Evento-Mensaje-Server', function(msg){
+        var msgJson = JSON.parse(msg);
+        var mensajeDisplay = "<b style='color:"+ msgJson.color +"'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
+        $('#messages').append($('<li>').html(mensajeDisplay));
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    });
     </script>
   </body>
 </html>

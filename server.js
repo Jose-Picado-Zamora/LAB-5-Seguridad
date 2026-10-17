@@ -1,4 +1,3 @@
-// Servidor UNA Chat
 var validation = require('./libs/unalib');
 var express = require('express');
 var app = express();
@@ -9,12 +8,10 @@ var port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Ruta raíz: presentar HTML
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-// Endpoint HTTP para validación de mensajes (usado en pruebas de integración)
 app.post('/api/mensaje', function(req, res){
   var rawMsg = req.body;
   if (!rawMsg) {
@@ -33,13 +30,10 @@ app.post('/api/mensaje', function(req, res){
   });
 });
 
-// Escuchar una conexión por socket
 io.on('connection', function(socket){
   socket.on('Evento-Mensaje-Server', function(msg){
-    // Llama al método validarMensaje de una-lib
     var procesado = validation.validarMensaje(msg);
     var payload = (typeof procesado === 'string') ? procesado : JSON.stringify(procesado);
-    // Volvemos a emitir el mensaje validado/saneado
     io.emit('Evento-Mensaje-Server', payload);
   });
 });

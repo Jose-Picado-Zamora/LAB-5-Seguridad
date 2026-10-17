@@ -3,7 +3,6 @@ var assert = require('assert');
 
 describe('unalib - Pruebas Unitarias (Lab 5)', function () {
 
-  // 1. Pruebas existentes: Validación de teléfono
   describe('Función is_valid_phone', function () {
     it('debería devolver true para 8297-8547', function () {
       assert.strictEqual(val.is_valid_phone('8297-8547'), true);
@@ -14,7 +13,6 @@ describe('unalib - Pruebas Unitarias (Lab 5)', function () {
     });
   });
 
-  // 2. Paso 7: Validación de URLs de Imágenes
   describe('Validación de URLs de Imágenes', function () {
     it('debería devolver true para http://image.com/image.jpg', function () {
       assert.strictEqual(val.is_valid_url_image('http://image.com/image.jpg'), true);
@@ -39,7 +37,6 @@ describe('unalib - Pruebas Unitarias (Lab 5)', function () {
     });
   });
 
-  // 3. Paso 7: Validación de URLs de Videos
   describe('Validación de URLs de Videos', function () {
     it('debería devolver true para URL estándar https://www.youtube.com/watch?v=qYwlqx-JLok', function () {
       assert.strictEqual(val.is_valid_yt_video('https://www.youtube.com/watch?v=qYwlqx-JLok'), true);
@@ -65,7 +62,6 @@ describe('unalib - Pruebas Unitarias (Lab 5)', function () {
     });
   });
 
-  // 4. Paso 7: Prevención de Inyección de Scripts (XSS)
   describe('Prevención de Inyección de Scripts', function () {
     it('debería detectar scripts maliciosos con <script>alert()</script>', function () {
       var script = "<script>alert('Inyección de script');</script>";
